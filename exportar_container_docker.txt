@@ -1,0 +1,38 @@
+**Conteúdo copiado do endereço abaixo**
+fonte:https://www.vivaolinux.com.br/dica/Como-exportar-um-container-Docker-para-outra-maquina
+
+COMO EXPORTAR UM CONTAINER DOCKER PARA OUTRA MÁQUINA
+ 
+
+Nesta dica vamos aprender a exportar um container Docker de uma máquina e importar em outra. 
+
+Estou partindo do princípio de que você já é um usuário Docker e possui um container rodando em sua máquina. 
+
+Para ilustrar nosso exemplo, vamos assumir que temos um container de nome "meudjango" e queremos exportá-lo para outra máquina. 
+
+Você pode listar os nomes dos containers em sua máquina com o comando: 
+
+# docker container ls -a 
+
+Então vamos lá! Vamos salvar o container "meudjango" para o arquivo meudjango.gz: 
+
+# docker export meudjango | gzip > meudjango.gz 
+
+Agora vamos copiar o container para a máquina destino: 
+
+# scp meudjango.gz servidor:/destino 
+
+Onde "servidor" é o IP da máquina e "/destino" o diretório de destino. 
+
+Acesse o servidor: 
+
+# ssh usuario@servidor 
+
+E na máquina destino importe o container: 
+
+# zcat meudjango.gz | docker import - meudjango 
+
+E pronto! Agora você possui uma imagem chamada "meudjango" e pode criar um novo container usando esta imagem como modelo. Exemplo: 
+
+# docker run -it meudjango bash 
+
